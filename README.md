@@ -12,10 +12,10 @@ Under GNOME Shell on Wayland, the compositor (Mutter) does not support the `wlr-
 - Clicking on a widget raises it over normal application windows.
 
 Modeled after the architecture of **Desktop Icons NG (DING)**, this extension bridges that gap from inside Mutter using internal GNOME Shell / Mutter C APIs:
-1. Keeps the Conky window as a `NORMAL` type but aggressively pushes it to the absolute bottom of the layer via `window.lower()`, ensuring it stays behind normal apps but above DING.
+1. Places the Conky window on the true desktop layer (`Meta.WindowType.DESKTOP` / `META_LAYER_DESKTOP = 0`). This natively hides it from Win+D ("Show Desktop") and the taskbar.
 2. Fixes coordinates using Mutter's internal `move_frame(true, x, y)`.
 3. Pins widgets across all virtual workspaces (`stick()`).
-4. Completely removes widgets from **Alt+Tab** and the **Activities Overview** via `skip_taskbar` and JS filters.
+4. Completely removes widgets from **Alt+Tab** and the **Activities Overview**.
 5. Automatically pushes widgets back down if clicked (`raised` signal handler).
 
 ---
@@ -117,9 +117,9 @@ own_window_title = 'Conky_Clock @!380,380',
 
 | Feature | Mutter C Mechanism | Result |
 |---|---|---|
-| **Layer Stacking** | `meta_window_lower(win)` | Window remains `NORMAL` type but is pushed to the absolute bottom of `META_LAYER_NORMAL`, sitting below all application windows. |
-| **Taskbar / Dock** | `meta_window_set_skip_taskbar(true)` | Excludes the window from the dock and application switcher UI. |
-| **Alt+Tab** | JS filter wrapper on `global.display.get_tab_list` | Safely excludes the widget from the Alt+Tab window cycler. |
+| **Layer Stacking** | `meta_window_set_type(win, META_WINDOW_DESKTOP)` | Window is placed into `META_LAYER_DESKTOP` (layer `0`), sitting below all application windows. |
+| **Taskbar / Dock** | Auto-calculated by Mutter | Setting type to `DESKTOP` automatically enforces `skip_taskbar = TRUE` and excludes it from Win+D (Show Desktop). |
+| **Alt+Tab** | JS filter wrapper on `global.display.get_tab_list` | Safely excludes the widget from the Alt+Tab window cycler (as a fallback). |
 | **Positioning** | `meta_window_move_frame(win, true, x, y)` | Bypasses Wayland's client-side positioning prohibition directly from inside the compositor. |
 | **Click Behavior** | `raised` GObject signal listener | Re-lowers the widget instantly if clicked (`window.lower()`), preventing it from covering applications. |
 
