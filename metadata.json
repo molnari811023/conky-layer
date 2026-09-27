@@ -3,5 +3,5 @@
   "description": "Desktop pinning and positioning for Conky NextGen under GNOME 50/51 Wayland",
   "uuid": "conky-layer@molnar.github.com",
   "url": "https://github.com/molnari811023/conky-layer",
-  "shell-version": ["50", "51"]
+  "shell-version": ["45", "46", "47", "50"]
 }
