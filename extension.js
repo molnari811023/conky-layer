@@ -117,13 +117,6 @@ export default class ConkyNextGenExtension extends Extension {
         // Mark window for custom filters
         window._isConkyWidget = true;
 
-        // 3. TASKBAR / DOCK FILTER: Invoke C-setter if present (though DESKTOP type sets this automatically)
-        try {
-            if (typeof window.set_skip_taskbar === 'function') {
-                window.set_skip_taskbar(true);
-            }
-        } catch (e) {}
-
         // 4. WAYLAND SURFACE INITIALIZATION: 200ms delay modeled after DING
         // Waits for the first buffer commit so Mutter places the frame accurately
         let timeoutId = GLib.timeout_add(GLib.PRIORITY_LOW, 200, () => {
@@ -131,6 +124,13 @@ export default class ConkyNextGenExtension extends Extension {
             if (idx > -1) this._timeouts.splice(idx, 1);
 
             if (!window || !window.get_compositor_private()) return GLib.SOURCE_REMOVE;
+
+            // 3. TASKBAR / DOCK FILTER: Must be set after surface initialization
+            try {
+                if (typeof window.set_skip_taskbar === 'function') {
+                    window.set_skip_taskbar(true);
+                }
+            } catch (e) {}
 
             // Keep it as NORMAL type (so it stays in META_LAYER_NORMAL above DING's DESKTOP layer).
             // But push it to the absolute bottom of NORMAL so all standard apps cover it.
