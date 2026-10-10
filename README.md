@@ -22,21 +22,25 @@ Modeled after the architecture of **Desktop Icons NG (DING)**, this extension br
 
 ## Installation
 
-### 1. Link or copy into GNOME Shell extensions directory
+### 1. Install into GNOME Shell extensions directory
 
+**Direct git clone (recommended):**
 ```bash
-mkdir -p ~/.local/share/gnome-shell/extensions/
-ln -s ~/.conky/gnome-extension ~/.local/share/gnome-shell/extensions/conky-layer@molnar
+git clone https://github.com/molnari811023/conky-layer.git ~/.local/share/gnome-shell/extensions/conky-layer@molnar.github.com
 ```
 
-*(Alternatively, copy the `gnome-extension` folder to `~/.local/share/gnome-shell/extensions/conky-layer@molnar`)*
+**Or symlink/copy directory:**
+```bash
+mkdir -p ~/.local/share/gnome-shell/extensions/
+ln -s /path/to/conky-layer ~/.local/share/gnome-shell/extensions/conky-layer@molnar.github.com
+```
 
 ### 2. Enable the extension
 
 Restart GNOME Shell (or log in to a new session), then enable:
 
 ```bash
-gnome-extensions enable conky-layer@molnar
+gnome-extensions enable conky-layer@molnar.github.com
 ```
 
 Or enable it visually via the **Extensions** app (`gnome-extensions-app`).
