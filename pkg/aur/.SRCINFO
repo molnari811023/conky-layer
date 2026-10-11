@@ -1,0 +1,15 @@
+pkgbase = gnome-shell-extension-conky-layer-git
+	pkgdesc = Desktop layer pinning and positioning for Conky under GNOME Wayland
+	pkgver = 1.0.0.r5.geb362ad
+	pkgrel = 1
+	url = https://github.com/molnari811023/conky-layer
+	arch = any
+	license = GPL-3.0-or-later
+	depends = gnome-shell>=45
+	optdepends = conky-nextgen: modular Conky widget suite
+	provides = gnome-shell-extension-conky-layer
+	conflicts = gnome-shell-extension-conky-layer
+	source = conky-layer::git+https://github.com/molnari811023/conky-layer.git
+	sha256sums = SKIP
+
+pkgname = gnome-shell-extension-conky-layer-git

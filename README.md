@@ -22,42 +22,41 @@ Modeled after the architecture of **Desktop Icons NG (DING)**, this extension br
 
 ## Installation
 
-### 1. Install into GNOME Shell extensions directory
+### Method 1: Debian / Ubuntu Package (.deb)
 
-**Direct git clone (recommended):**
+Install system-wide for all users:
+```bash
+sudo apt install ./pkg/gnome-shell-extension-conky-layer_*.deb
+```
+
+### Method 2: Direct Git Clone (User Directory)
+
 ```bash
 git clone https://github.com/molnari811023/conky-layer.git ~/.local/share/gnome-shell/extensions/conky-layer@molnar.github.com
 ```
 
-**Or symlink/copy directory:**
-```bash
-mkdir -p ~/.local/share/gnome-shell/extensions/
-ln -s /path/to/conky-layer ~/.local/share/gnome-shell/extensions/conky-layer@molnar.github.com
-```
+### Enable the Extension:
 
-### 2. Enable the extension
-
-Restart GNOME Shell (or log in to a new session), then enable:
+Log in to a new session (or restart GNOME Shell), then enable:
 
 ```bash
 gnome-extensions enable conky-layer@molnar.github.com
 ```
 
-Or enable it visually via the **Extensions** app (`gnome-extensions-app`).
+Or toggle it in the **Extensions** app (`gnome-extensions-app`).
 
 ---
 
 ## Conky Configuration (`.conf`)
 
-In your Conky `.conf` file, set the standard Wayland window parameters and encode the target coordinates into `own_window_title`.
+In your Conky `.conf` file, set the Wayland window parameters and encode the target coordinates into `own_window_title`.
 
 ### Essential Conky window settings:
 
 ```lua
 conky.config = {
-  -- Enable Wayland output
-  out_to_wayland = true,
-  out_to_x = false,
+  -- Enable Wayland output (Conky 1.25+)
+  output_backend = 'wayland',
 
   -- Window management
   own_window = true,
@@ -67,10 +66,8 @@ conky.config = {
   -- Desktop coordinate definition in window title (see syntax below):
   own_window_title = 'Conky_Left @!DESKTOP:x=10,y=40',
 
-  -- Transparent background
-  own_window_argb_visual = true,
-  own_window_argb_value = 0,
-  own_window_transparent = true,
+  -- Transparent background (Conky 1.25+)
+  own_window_color = '#0000',
 
   -- Dimensions
   minimum_width = 360,

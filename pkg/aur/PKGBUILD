@@ -1,0 +1,30 @@
+# Maintainer: István Molnár <molnari811023@gmail.com>
+
+pkgname=gnome-shell-extension-conky-layer-git
+_pkgname=conky-layer
+pkgver=1.0.0.r5.geb362ad
+pkgrel=1
+pkgdesc="Desktop layer pinning and positioning for Conky under GNOME Wayland"
+arch=('any')
+url="https://github.com/molnari811023/conky-layer"
+license=('GPL-3.0-or-later')
+depends=('gnome-shell>=45')
+optdepends=('conky-nextgen: modular Conky widget suite')
+provides=("gnome-shell-extension-conky-layer")
+conflicts=("gnome-shell-extension-conky-layer")
+source=("${_pkgname}::git+https://github.com/molnari811023/conky-layer.git")
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "${srcdir}/${_pkgname}"
+  printf "1.0.0.r%s.g%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"
+}
+
+package() {
+  cd "${srcdir}/${_pkgname}"
+  local dest="${pkgdir}/usr/share/gnome-shell/extensions/conky-layer@molnar.github.com"
+  mkdir -p "${dest}"
+  install -Dm644 metadata.json "${dest}/metadata.json"
+  install -Dm644 extension.js "${dest}/extension.js"
+  install -Dm644 README.md "${pkgdir}/usr/share/doc/${pkgname}/README.md"
+}
